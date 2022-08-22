@@ -1,0 +1,79 @@
+<?php
+include "../../config/config.php";
+
+
+$harga=$_POST['harga'];
+$harga1=$_POST['harga1'];
+$harga2=$_POST['harga2'];
+$harga3=$_POST['harga3'];
+$stok=$_POST['stok'];
+$stok1=$_POST['stok1'];
+$stok2=$_POST['stok2'];
+$stok3=$_POST['stok3'];
+$obatx=$_POST['obatx'];
+$obatx1=$_POST['obatx1'];
+$obatx2=$_POST['obatx2'];
+$obatx3=$_POST['obatx3'];
+
+
+$nama_pasien=$_POST['nama_pasien'];
+$nama_admin=$_POST['nama_admin'];
+$totalValue=$_POST['totalValue'];
+
+$data=mysqli_query($conn,"select * from obat where no_obat='$obatx'");
+$hasil=mysqli_fetch_array($data);
+
+$stokawal = $hasil['stok'];
+
+$stokupdate= $stokawal - $stok ;
+
+// batas 1
+
+
+$data1=mysqli_query($conn,"select * from obat where no_obat='$obatx1'");
+$hasil1=mysqli_fetch_array($data1);
+
+$stokawal1 = $hasil1['stok'];
+
+$stokupdate1= $stokawal1 - $stok1 ;
+
+
+// batas 2
+
+$data2=mysqli_query($conn,"select * from obat where no_obat='$obatx2'");
+$hasil2=mysqli_fetch_array($data2);
+
+$stokawal2 = $hasil2['stok'];
+
+$stokupdate2= $stokawal2 - $stok2 ;
+// batas 3
+
+
+$data3=mysqli_query($conn,"select * from obat where no_obat='$obatx3'");
+$hasil3=mysqli_fetch_array($data3);
+
+$stokawal3 = $hasil3['stok'];
+
+$stokupdate3= $stokawal3 - $stok3 ;
+
+
+    if($stok >= $stokawal && $stok1 >= $stokawal1 && $stok2 >= $stokawal2 && $stok3 >= $stokawal3 ){
+        // echo "abc";
+        $proses ="INSERT INTO pembayaran   (pasien,no_obat, admin,jumlah,harga) VALUES ('$pasien','$var','$admin','$stok','$totalValue')" ;
+        $berhasil=mysqli_query($conn,$proses) or die (mysqli_error($conn));
+
+        if($berhasil){
+
+        $query="UPDATE obat set  stok='$stokupdate' WHERE no_obat='$var' ";
+        $update=mysqli_query($conn,$query) or die (mysqli_error($conn));
+
+
+            echo "<script>alert('Berhasil menambah data');window.location.href='../index.php?page=pembayaran'</script>";
+        }
+    }else{
+        echo "<script>alert('Gagal Menambah data harap periksa stok terlebih dahulu');window.location.href='../index.php?page=pembayaran'</script>";  
+    }
+
+
+
+?>

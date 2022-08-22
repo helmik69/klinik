@@ -1,0 +1,5 @@
+/node_modules
+/vendor
+
+/admin/config.php
+/admin/function.php
